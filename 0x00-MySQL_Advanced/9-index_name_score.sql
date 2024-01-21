@@ -1,2 +1,2 @@
 -- second index
-CREATE INDEX idx_name_first ON names (name(1), score);
+CREATE INDEX idx_name_first_score ON names (name(1), score);
