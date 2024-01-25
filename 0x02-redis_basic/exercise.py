@@ -1,8 +1,20 @@
 #!/usr/bin/env python3
 """script for using redis in py"""
 from typing import Union, Callable
+from functools import wraps
 import redis
 import uuid
+
+
+def count_calls(f: Callable) -> Callable:
+    """decorator"""
+    @wraps(f)
+    def wrapper(*args, **kwds) -> any:
+        """decorator"""
+        self = args[0]
+        self._redis.incr(f.__qualname__, 1)
+        return f(*args, **kwds)
+    return wrapper
 
 
 class Cache:
@@ -11,6 +23,7 @@ class Cache:
         self._redis = redis.Redis()
         self._redis.flushdb()
 
+    @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """method to store data and return a key in redis"""
         key = str(uuid.uuid4())
