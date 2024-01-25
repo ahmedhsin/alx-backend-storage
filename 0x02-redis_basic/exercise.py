@@ -7,10 +7,8 @@ import uuid
 
 
 def count_calls(f: Callable) -> Callable:
-    """decorator"""
     @wraps(f)
     def wrapper(*args: any, **kwds: any) -> any:
-        """decorator"""
         self = args[0]
         self._redis.incr(f.__qualname__, 1)
         return f(*args, **kwds)
