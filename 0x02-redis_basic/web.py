@@ -31,6 +31,7 @@ def get_page(url: str) -> str:
         response = requests.get(url)
         output = response.text
         redis.setex(url, 10, output)
+        redis.setex(f'count{url}', 10, 0)
         return output
     except Exception:
         return ""
