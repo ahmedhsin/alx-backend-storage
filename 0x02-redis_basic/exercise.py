@@ -10,10 +10,9 @@ def count_calls(f: Callable) -> Callable:
     """this is a decorator to keep track of the count calls"""
 
     @wraps(f)
-    def wrapper(*args: any, **kwds: any) -> any:
-        self = args[0]
+    def wrapper(self, *args: any, **kwds: any) -> any:
         self._redis.incr(f.__qualname__, 1)
-        return f(*args, **kwds)
+        return f(self, *args, **kwds)
     return wrapper
 
 
