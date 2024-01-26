@@ -42,9 +42,9 @@ def replay(f: Callable) -> None:
         print(f'{key} was called {call_times} {tim}:')
     inputs = self._redis.lrange("{}:inputs".format(key), 0, -1)
     outputs = self._redis.lrange("{}:outputs".format(key), 0, -1)
-    for i in range(len(inputs)):
-        k = inputs[i].decode('utf-8')
-        v = outputs[i].decode('utf-8')
+    for k, v in zip(inputs, outputs):
+        k = k.decode('utf-8')
+        v = v.decode('utf-8')
         print(f'{key}(*{k}) -> {v}')
 
 
