@@ -6,13 +6,14 @@ import redis
 import uuid
 
 
-def count_calls(f: Callable) -> Callable:
+def count_calls(method: Callable) -> Callable:
     """this is a decorator to keep track of the count calls"""
 
-    @wraps(f)
-    def wrapper(self, *args: any, **kwds: any) -> any:
-        self._redis.incr(f.__qualname__, 1)
-        return f(self, *args, **kwds)
+    @wraps(method)
+    def wrapper(self, *args, **kwds):
+        """this is a wrapper"""
+        self._redis.incr(method.__qualname__, 1)
+        return method(self, *args, **kwds)
     return wrapper
 
 
