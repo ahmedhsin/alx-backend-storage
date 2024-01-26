@@ -38,7 +38,8 @@ def replay(f: Callable) -> None:
     tim = 'times'
     if call_times == 1:
         tim = 'time'
-    print(f'{key} was called {call_times} {tim}:')
+    if call_times:
+        print(f'{key} was called {call_times} {tim}:')
     inputs = self._redis.lrange("{}:inputs".format(key), 0, -1)
     outputs = self._redis.lrange("{}:outputs".format(key), 0, -1)
     for i in range(len(inputs)):
