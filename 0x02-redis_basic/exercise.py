@@ -7,6 +7,8 @@ import uuid
 
 
 def count_calls(f: Callable) -> Callable:
+    """this is a decorator to keep track of the count calls"""
+
     @wraps(f)
     def wrapper(*args: any, **kwds: any) -> any:
         self = args[0]
