@@ -19,8 +19,8 @@ def call_tracker(f: Callable) -> Callable:
         redis.incr(f'count:{url}', 1)
         output = redis.get(url)
         if output:
-            return output
-        return f(*args, **kwds)
+            return output.decode('utf-8')
+        return f(*args, **kwds).decode('utf-8')
     return wrapper
 
 
