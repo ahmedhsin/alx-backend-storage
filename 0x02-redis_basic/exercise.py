@@ -23,11 +23,25 @@ def call_history(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwds):
         """this is a wrapper"""
-        self._redis.rpush(method.__qualname__ + ':inputs', str(args[0]))
+        self._redis.rpush(method.__qualname__ + ':inputs', str(args))
         output = method(self, *args, **kwds)
         self._redis.rpush(method.__qualname__ + ':outputs', str(output))
         return output
     return wrapper
+
+
+def replay(f: Callable) -> None:
+    """fuc to display info """
+    key = f.__qualname__
+    self = f.__self__
+    call_times = self.get_int(key)
+    print(f'{key} was called {call_times} times:')
+    inputs = self._redis.lrange("{}:inputs".format(key), 0, -1)
+    outputs = self._redis.lrange("{}:outputs".format(key), 0, -1)
+    for i in range(len(inputs)):
+        k = inputs[i].decode('utf-8')
+        v = outputs[i].decode('utf-8')
+        print(f'{key}(*{k}) -> {v}')
 
 
 class Cache:
