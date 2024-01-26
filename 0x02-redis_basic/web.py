@@ -30,8 +30,7 @@ def get_page(url: str) -> str:
     try:
         response = requests.get(url)
         output = response.text
-        redis.set(url, output)
-        redis.expire(url, 10)
+        redis.setex(url, 10, output)
         return output
     except Exception:
-        pass
+        return ""
