@@ -16,9 +16,9 @@ def call_tracker(f: Callable) -> Callable:
     def wrapper(*args, **kwds):
         """this is a wrapper"""
         url = args[0]
-        redis.incr(f'count:{url}', 1)
         output = redis.get(url)
         if output:
+            redis.incr(f'count:{url}', 1)
             return output.decode('utf-8')
         return f(*args, **kwds).decode('utf-8')
     return wrapper
