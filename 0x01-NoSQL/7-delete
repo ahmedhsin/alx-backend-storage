@@ -1,1 +1,2 @@
-#!/usr/bin/env bash
+// delete ele on mongo db
+db.school.deleteOne({name:'Holberton school'})
