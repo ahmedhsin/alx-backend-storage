@@ -7,6 +7,7 @@ if __name__ == "__main__":
     logs = client.logs.nginx
     print(f'{logs.count_documents({})} logs')
     m = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+    print("Methods:")
     for method in m:
         count = logs.count_documents({"method": method})
         print(f'\tmethod {method}: {count}')
