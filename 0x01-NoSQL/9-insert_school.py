@@ -4,5 +4,8 @@
 
 def insert_school(mongo_collection, **kwargs):
     """insert a doc into collection"""
-    res = mongo_collection.insert_one(kwargs)
-    return str(res.inserted_id)
+    try:
+        res = mongo_collection.insert_one(kwargs)
+        return res.inserted_id
+    except Exception:
+        pass
